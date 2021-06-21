@@ -1,0 +1,5 @@
+package com.appsarr.app.ws.ui.model.response;
+
+public class ErrorMessage {
+
+}

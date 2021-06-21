@@ -1,0 +1,22 @@
+package com.appsarr.app.ws.ui.model.request;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter @Setter @NoArgsConstructor
+public class UserDetailsRequestModel {
+	private String firstname;
+	private String email;
+	private String lastname;
+	private Integer id;
+	
+	@Override
+	public String toString() {
+		return "UserDetailsRequestModel [firstname=" + firstname + ", email=" + email + ", lastname=" + lastname
+				+ ", id=" + id + "]";
+	}
+	
+	
+
+}

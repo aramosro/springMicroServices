@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,12 +23,16 @@ import com.appsarr.app.ws.exceptions.UserServiceException;
 import com.appsarr.app.ws.ui.model.request.UpdateUserDetailsRequestModel;
 import com.appsarr.app.ws.ui.model.request.UserDetailsRequestModel;
 import com.appsarr.app.ws.ui.model.response.UserRest;
+import com.appsarr.app.ws.userservice.UserService;
 
 @RestController
 @RequestMapping("users") // http://localhost:8080/users
 public class UserController {
 	private Map<Integer, UserRest> usersMap = new HashMap<Integer, UserRest>();
 
+	@Autowired
+	UserService userService;
+	
 	@GetMapping
 	public String getUsers() {
 		return "getusers was called";
@@ -63,13 +68,7 @@ public class UserController {
 
 	@PostMapping(consumes = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE }, produces= {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<UserRest> createUsers(@Valid @RequestBody UserDetailsRequestModel userDetails) {
-		UserRest userRest = new UserRest();
-		userRest.setFirstName(userDetails.getFirstName());
-		userRest.setLastName(userDetails.getLastName());
-		userRest.setEmail(userDetails.getEmail());
-		userRest.setId(userDetails.getId());
-		usersMap.put(userDetails.getId(), userRest);
-		return new ResponseEntity<UserRest>(userRest, HttpStatus.OK);
+		return new ResponseEntity<UserRest>(userService.createUser(userDetails), HttpStatus.OK);
 	}
 
 	@PutMapping(path = "/{id}", consumes = { MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE })
